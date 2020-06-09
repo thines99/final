@@ -1,17 +1,32 @@
 <div class="row">
   <div class="col-sm-9">
-    <h3> <%= @support[:location] %>
-    </h3>
     <h1><%= @support[:title] %>
     </h1>
     <p><%= @support[:description] %>
     </p>
+    <h1> Current Donations from your community </h1>
+    <% if @pledge.length < 1 %>
+       <p> No donations yet... be the first to offer some help!</p>
+    <% else %>
+    <% for post in @pledge %>
+        <p> Donation by: <%= post[:name] %></p>
+        <p> Offer: <%= post[:comments] %></p>
+      <%end%>
+    <%end%>
+    <button><a href="<%= @support[:cash_link] %>" target="_blank">Donate Cash via GoFundMe</a></button>
+    <button><a href="/supportplaces/<%= @support[:id] %>/pledge/new" >Pledge your Time or Expertise</a></button>
+    <h1> Location </h1>
+<h3> <%= @support[:location] %>
+    </h1>
+<div>
   <iframe
   width ="600"
   height="450"
   frameborder="0"
   style="border:0"
   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBK0-WP7IfrFWlztjioDR6k7Ygvf9HD0LE&q=
-  <%= @lat_long %>&zoom=15" allowfullscreen>
+  <%= @lat_long %>&zoom=15" allowfullscreen="true">
+  #src="https://www.google.com/maps/embed/v1/place?key=<%=@google_api_key%>
 </div>
+
 </div>
