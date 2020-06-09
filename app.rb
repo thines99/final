@@ -15,5 +15,29 @@ before { puts; puts "--------------- NEW REQUEST ---------------"; puts }       
 after { puts; }                                                                       #
 #######################################################################################
 
-# events_table = DB.from(:events)
-# rsvps_table = DB.from(:rsvps)
+supportplaces_table = DB.from(:supportplaces)
+pledge_table = DB.from(:pledge)
+
+before do
+   @support = supportplaces_table.where(:id =>params["id"]).to_a[0]
+   puts @support.inspect
+end
+
+get "/" do 
+    @supportplaces = supportplaces_table.all
+    view "supportplaces"
+end
+
+get "/supportplaces/:id" do 
+    # SELECT * FROM support WHERE id=:id
+    @support = supportplaces_table.where(:id =>params["id"]).to_a[0]
+    puts @support.inspect
+
+    #Google maps
+    results = Geocoder.search(@support[:location])
+    @lat_long = results.first.coordinates.join(",")
+    view "support"
+
+
+end
+

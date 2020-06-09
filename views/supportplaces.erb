@@ -1,0 +1,5 @@
+<h1>Chicago Family Owned Shops</h1>
+<ul class="list-unstyled">
+    <% for support in @supportplaces %>
+<li><a href="/supportplaces/<%= support[:id] %>"><%= support[:title] %></a></li>    <% end %>
+</ul>
