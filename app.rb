@@ -26,7 +26,7 @@ before do
    # SELECT * FROM users WHERE id = session[:user_id]
     @current_user = users_table.where(:id => session[:user_id]).to_a[0]
     puts @current_user.inspect
-    @google_api_key = "AIzaSyBK0-WP7IfrFWlztjioDR6k7Ygvf9HD0LE"
+    @google_api_key = ENV["GOOGLE_API_KEY"]
 end
 
 get "/" do 
@@ -36,6 +36,7 @@ end
 
 get "/supportplaces/:id" do 
 
+    #User Info
     @users_table = users_table
 
     # SELECT * FROM support WHERE id=:id
@@ -66,19 +67,20 @@ get "/supportplaces/:id/pledge/create" do
                        :name => @current_user[:name],
                        :email => @current_user[:email],
                        :comments => params["comments"])
-                       # read your API credentials from environment variables
-account_sid = "AC6abb7f0e4c87136c8c9fe70fa522c75f"
-auth_token = "dda944eef357688e04e6136d996ae736"
 
-# set up a client to talk to the Twilio REST API
-client = Twilio::REST::Client.new(account_sid, auth_token)
+    #Auto Send Text To My Phone Letting Me Know there was a new "Pledge"
+    account_sid = ENV["TWILIO_ACCOUNT_SID"]
+    auth_token = ENV["TWILIO_AUTH_TOKEN"]
 
-# send the SMS from your trial Twilio number to your verified non-Twilio number
-client.messages.create(
- from: "+12018222063", 
- to: "+16304576329",
- body: params["comments"]
-)
+    # set up a client to talk to the Twilio REST API
+    client = Twilio::REST::Client.new(account_sid, auth_token)
+
+    # send the SMS from your trial Twilio number to your verified non-Twilio number, hard coded because trial
+    client.messages.create(
+     from: "+12018222063", 
+     to: "+16304576329",
+     body: params["comments"]
+    )
 
     view "create_pledge"
 end
