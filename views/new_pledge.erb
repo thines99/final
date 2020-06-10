@@ -2,7 +2,7 @@
 
 <p>Every little bit helps. Share your expertise, labor, or business skills to help rebuild the community. Fill out the form below to offer help to those in need.</p>
 
-<form action="/supportplaces/<%= @support[:id] %>/pledge/create" class="mt-5">
+<form action="/supportplaces/<%= @support[:id] %>/pledge/create" method ="POST" class="mt-5">
   <div class="form-group">
     <label>Your Name</label>
     <p><%= @current_user[:name] %></p>

@@ -53,14 +53,14 @@ get "/supportplaces/:id" do
     view "support"
 end
 
-post "/supportplaces/:id/pledge/new" do
+get "/supportplaces/:id/pledge/new" do
     @support = supportplaces_table.where(:id => params["id"]).to_a[0]
     puts @support.inspect
     view "new_pledge"
 end
 
  # Create Pledge
-get "/supportplaces/:id/pledge/create" do
+post "/supportplaces/:id/pledge/create" do
     puts params.inspect
    
     pledge_table.insert(:support_id => params["id"],
