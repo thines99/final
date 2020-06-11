@@ -13,10 +13,14 @@
         <p> Offer: <%= post[:comments] %></p>
       <%end%>
     <%end%>
-    <button><a href="<%= @support[:cash_link] %>" target="_blank">Donate Cash via GoFundMe</a></button>
-    <button><a href="/supportplaces/<%= @support[:id] %>/pledge/new" >Pledge your Time or Expertise</a></button>
+    <% if @current_user = @users_table.where(:id => session[:user_id]).to_a[0] %>
+        <button><a href="<%= @support[:cash_link] %>" target="_blank">Donate Cash via GoFundMe</a></button>
+        <button><a href="/supportplaces/<%= @support[:id] %>/pledge/new" >Pledge your Time or Expertise</a></button>
+    <% else %>
+        <button><a href="/users/new" >Sign up to donate</a></button>
+    <% end %>
     <h1> Location </h1>
-<h3> <%= @support[:location] %>
+    <h3> <%= @support[:location] %>
     </h1>
 <div>
   <iframe
